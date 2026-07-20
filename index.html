@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#171512" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="description" content="L’Atelier à Pizza à Schaerbeek — pizzas halal, pâte maison, sur place, à emporter ou livrées." />
+    <meta property="og:title" content="L’Atelier à Pizza — Schaerbeek" />
+    <meta property="og:description" content="Pâte maison, garnitures généreuses, plaisir immédiat. Commandez votre pizza à Helmet." />
+    <meta property="og:image" content="/atelier-pizza-hero.webp" />
+    <meta property="og:type" content="restaurant.restaurant" />
+    <title>L’Atelier à Pizza — Schaerbeek</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "PizzaPlace",
+        "name": "L’Atelier à Pizza",
+        "image": "/atelier-pizza-hero.webp",
+        "telephone": "+3222421300",
+        "priceRange": "€€",
+        "servesCuisine": ["Pizza", "Halal", "Pâtes"],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Chaussée de Helmet 315",
+          "postalCode": "1030",
+          "addressLocality": "Schaerbeek",
+          "addressCountry": "BE"
+        },
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday"], "opens": "12:00", "closes": "14:30" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday"], "opens": "17:00", "closes": "22:30" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "16:00", "closes": "23:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "12:00", "closes": "23:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "12:00", "closes": "22:30" }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
