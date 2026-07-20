@@ -11,6 +11,7 @@ const errors = []
 
 for (const setup of [
   { name: 'desktop', viewport: { width: 1440, height: 1000 }, isMobile: false },
+  { name: 'tablet', viewport: { width: 659, height: 789 }, isMobile: false },
   { name: 'mobile', viewport: { width: 390, height: 844 }, isMobile: true },
 ]) {
   const context = await browser.newContext({ viewport: setup.viewport, isMobile: setup.isMobile, hasTouch: setup.isMobile })
@@ -23,7 +24,11 @@ for (const setup of [
     title: document.title,
     lang: document.documentElement.lang,
     innerWidth: window.innerWidth,
+    clientWidth: document.documentElement.clientWidth,
     scrollWidth: document.documentElement.scrollWidth,
+    bodyWidth: Math.round(document.body.getBoundingClientRect().width),
+    mainWidth: Math.round(document.querySelector('main').getBoundingClientRect().width),
+    heroWidth: Math.round(document.querySelector('.hero').getBoundingClientRect().width),
     heroHeight: Math.round(document.querySelector('.hero').getBoundingClientRect().height),
     viewportHeight: window.innerHeight,
     h1: document.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim(),

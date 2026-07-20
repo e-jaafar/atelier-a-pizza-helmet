@@ -42,7 +42,7 @@ img { display: block; max-width: 100%; }
 .mobile-nav { display: none; }
 
 .hero { min-height: 100svh; position: relative; overflow: hidden; color: white; background: var(--ink); }
-.hero-image { position: absolute; inset: -3%; width: 106%; height: 106%; object-fit: cover; transform-origin: center right; }
+.hero-image { position: absolute; inset: -3%; width: 106%; max-width: none; height: 106%; object-fit: cover; transform-origin: center right; }
 .hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9,8,7,.93) 0%, rgba(9,8,7,.72) 29%, rgba(9,8,7,.18) 65%, rgba(9,8,7,.22) 100%), linear-gradient(0deg, rgba(9,8,7,.38), transparent 42%); }
 .hero-copy { position: relative; z-index: 2; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; width: min(94%, 1420px); margin: 0 auto; padding: 128px 0 90px; }
 .eyebrow { margin: 0 0 1.8rem; text-transform: uppercase; letter-spacing: .17em; font-size: .72rem; font-weight: 600; }
