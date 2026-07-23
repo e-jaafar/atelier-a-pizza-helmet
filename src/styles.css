@@ -51,11 +51,21 @@ img { display: block; max-width: 100%; }
 .hero h1 { max-width: 780px; font-size: clamp(3.5rem, 7.8vw, 8.4rem); line-height: .86; }
 .hero-intro { max-width: 430px; margin: 2rem 0 2.4rem; font-size: clamp(1rem, 1.35vw, 1.25rem); line-height: 1.55; color: rgba(255,255,255,.82); }
 .order-links { display: flex; flex-wrap: wrap; gap: .75rem; }
-.button { min-height: 53px; display: inline-flex; align-items: center; justify-content: center; gap: .65rem; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; padding: 0 1.45rem; font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; transition: transform .25s ease, background .25s ease, color .25s ease; }
+.button { min-height: 53px; display: inline-flex; align-items: center; justify-content: center; gap: .65rem; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; padding: 0 1.45rem; background: transparent; color: inherit; cursor: pointer; font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; transition: transform .25s ease, background .25s ease, color .25s ease; }
 .button:hover { transform: translateY(-3px); }
 .button-primary { background: var(--tomato); border-color: var(--tomato); color: white; }
 .button-primary:hover { background: #ed4932; }
 .button-ghost:hover { background: white; color: var(--ink); }
+.directions-picker { position: relative; }
+.directions-trigger[aria-expanded='true'] { background: white; color: var(--ink); }
+.directions-menu {
+  position: absolute; z-index: 30; left: 0; bottom: calc(100% + .8rem); width: 245px;
+  padding: .55rem; border: 1px solid rgba(255,255,255,.2); border-radius: 18px;
+  background: rgba(23,21,18,.96); box-shadow: 0 18px 50px rgba(0,0,0,.35); backdrop-filter: blur(16px);
+}
+.directions-menu p { margin: .35rem .6rem .6rem; color: rgba(255,255,255,.55); font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; }
+.directions-menu a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem .7rem; border-radius: 11px; font-size: .82rem; font-weight: 500; transition: background .2s ease; }
+.directions-menu a:hover, .directions-menu a:focus-visible { background: rgba(255,255,255,.1); outline: none; }
 .hero-foot { position: absolute; z-index: 3; left: 4vw; right: 4vw; bottom: 29px; display: flex; align-items: center; justify-content: space-between; text-transform: uppercase; font-size: .66rem; font-weight: 600; letter-spacing: .13em; color: rgba(255,255,255,.7); }
 .scroll-cue { display: flex; align-items: center; gap: .8rem; }
 .scroll-cue i { display: block; width: 42px; height: 1px; background: white; position: relative; overflow: hidden; }
@@ -158,6 +168,8 @@ img { display: block; max-width: 100%; }
   .hero-shade { background: linear-gradient(0deg, rgba(9,8,7,.96) 0, rgba(9,8,7,.56) 63%, rgba(9,8,7,.25) 100%); }
   .button { width: 100%; }
   .order-links { width: 100%; }
+  .directions-picker { width: 100%; }
+  .directions-menu { position: fixed; left: 5vw; right: 5vw; bottom: 1.25rem; width: auto; }
   .hero-foot span:first-child { display: none; }
   .hero-foot { justify-content: flex-end; }
   .proof { overflow: hidden; justify-content: flex-start; white-space: nowrap; padding: 1rem 5vw; }

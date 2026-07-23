@@ -36,6 +36,17 @@ for (const setup of [
     sectionIds: [...document.querySelectorAll('section[id]')].map((s) => s.id),
   }))
 
+  const directionsButton = page.getByRole('button', { name: /s’y rendre/i })
+  await directionsButton.click()
+  const directionLinks = await page.locator('#directions-menu a').evaluateAll((links) => links.map((link) => ({
+    text: link.textContent.trim(),
+    href: link.href,
+  })))
+  const directionsLabel = await page.locator('#directions-menu p').textContent()
+  await page.keyboard.press('Escape')
+  const directionsClosed = await page.locator('#directions-menu').count() === 0
+  Object.assign(metrics, { directionLinks, directionsLabel, directionsClosed })
+
   if (setup.isMobile) {
     await page.getByRole('button', { name: /ouvrir le menu/i }).click()
     const menuVisible = await page.locator('#mobile-nav').isVisible()
@@ -63,4 +74,12 @@ for (const setup of [
 await browser.close()
 console.log(JSON.stringify({ results, errors }, null, 2))
 
-if (errors.length || Object.values(results).some((result) => result.scrollWidth !== result.innerWidth)) process.exitCode = 1
+const directionServicesAreValid = Object.values(results).every((result) => (
+  result.directionLinks.length === 3
+  && result.directionLinks.some((link) => link.href.includes('google.com/maps/dir/'))
+  && result.directionLinks.some((link) => link.href.includes('waze.com/ul'))
+  && result.directionLinks.some((link) => link.href.includes('maps.apple.com/'))
+  && result.directionsClosed
+))
+
+if (errors.length || !directionServicesAreValid || Object.values(results).some((result) => result.scrollWidth !== result.innerWidth)) process.exitCode = 1

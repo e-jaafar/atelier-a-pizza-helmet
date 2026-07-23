@@ -1,9 +1,25 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const TAKEAWAY_URL = 'https://www.takeaway.com/be-fr/menu/latelier-a-pizza-helmet'
 const UBER_URL = 'https://www.ubereats.com/be/store/latelier-a-pizza/UtHUh_htXI-n2J-74GDFgw'
 const MAP_URL = 'https://www.google.com/maps/search/?api=1&query=Chauss%C3%A9e+de+Helmet+315+1030+Schaerbeek'
+const DESTINATION = encodeURIComponent('L’Atelier à Pizza, Chaussée de Helmet 315, 1030 Schaerbeek')
+
+const directionServices = [
+  {
+    name: 'Google Maps',
+    href: `https://www.google.com/maps/dir/?api=1&destination=${DESTINATION}&travelmode=driving&dir_action=navigate`,
+  },
+  {
+    name: 'Waze',
+    href: `https://www.waze.com/ul?q=${DESTINATION}&navigate=yes`,
+  },
+  {
+    name: 'Plans',
+    href: `https://maps.apple.com/?daddr=${DESTINATION}&dirflg=d`,
+  },
+]
 
 const pizzas = [
   { name: "L’Atelier", price: '9,90', note: 'La signature', ingredients: 'Crème, mozzarella, jambon de dinde, pommes de terre, oignons rouges' },
@@ -22,7 +38,70 @@ const hours = [
   ['Dimanche', '12:00–22:30'],
 ]
 
-function OrderLinks({ compact = false }: { compact?: boolean }) {
+function DirectionsPicker() {
+  const [open, setOpen] = useState(false)
+  const pickerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (!pickerRef.current?.contains(event.target as Node)) setOpen(false)
+    }
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+
+    document.addEventListener('pointerdown', closeOnOutsideClick)
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsideClick)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [open])
+
+  return (
+    <div className="directions-picker" ref={pickerRef}>
+      <button
+        className="button button-ghost directions-trigger"
+        type="button"
+        aria-expanded={open}
+        aria-controls="directions-menu"
+        aria-haspopup="menu"
+        onClick={() => setOpen((current) => !current)}
+      >
+        S’y rendre <span aria-hidden="true">⌖</span>
+      </button>
+      {open && (
+        <motion.div
+          id="directions-menu"
+          className="directions-menu"
+          role="menu"
+          aria-label="Choisir une application d’itinéraire"
+          initial={{ opacity: 0, y: 8, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+        >
+          <p>Itinéraire depuis votre position</p>
+          {directionServices.map((service) => (
+            <a
+              key={service.name}
+              href={service.href}
+              target="_blank"
+              rel="noreferrer"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+            >
+              <span>{service.name}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </motion.div>
+      )}
+    </div>
+  )
+}
+
+function OrderLinks({ compact = false, directions = false }: { compact?: boolean, directions?: boolean }) {
   return (
     <div className={compact ? 'order-links compact' : 'order-links'}>
       <a className="button button-primary" href={TAKEAWAY_URL} target="_blank" rel="noreferrer">
@@ -31,6 +110,7 @@ function OrderLinks({ compact = false }: { compact?: boolean }) {
       <a className="button button-ghost" href={UBER_URL} target="_blank" rel="noreferrer">
         Uber Eats <span aria-hidden="true">↗</span>
       </a>
+      {directions && <DirectionsPicker />}
     </div>
   )
 }
@@ -87,7 +167,7 @@ function App() {
           <motion.p className="hero-intro" variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
             Des pizzas généreuses, préparées à Helmet et livrées encore chaudes.
           </motion.p>
-          <motion.div variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}><OrderLinks /></motion.div>
+          <motion.div variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}><OrderLinks directions /></motion.div>
         </motion.div>
         <div className="hero-foot">
           <span>Chaussée de Helmet 315</span>
